@@ -1,0 +1,28 @@
+llm.{$ROOT_DOMAIN} {
+	reverse_proxy host.docker.internal:12345
+}
+
+js.{$ROOT_DOMAIN} {
+	reverse_proxy host.docker.internal:11081
+}
+
+llm-autotest.{$ROOT_DOMAIN} {
+	reverse_proxy speedtest:80
+}
+
+qsh.{$ROOT_DOMAIN} {
+	reverse_proxy host.docker.internal:17500
+}
+
+alist.{$ROOT_DOMAIN} {
+	reverse_proxy host.docker.internal:5244
+}
+
+douji-sh.{$ROOT_DOMAIN} {
+	root * /srv/douji
+	file_server
+	encode zstd gzip
+	reverse_proxy /api/* host.docker.internal:18009
+}
+# Refer to the Caddy docs for more information:
+# https://caddyserver.com/docs/caddyfile

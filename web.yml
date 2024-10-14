@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    # cap_add:
+      # - NET_ADMIN
+    environment:
+      - ROOT_DOMAIN=${ROOT_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - $PWD/caddy/caddyfile:/etc/caddy/Caddyfile
+      - $PWD/../site:/srv
+      - my_caddy_data:/data
+      - my_caddy_config:/config
+    networks:
+      - my_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  speedtest:
+    image: stilleshan/speedtest-x
+    container_name: speedtest
+    ports:
+      - "5678:80" # 5678 映射到外部主机的 80 端口\
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+volumes:
+  my_caddy_data:
+    external: true
+  my_caddy_config:
