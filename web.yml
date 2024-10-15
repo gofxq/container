@@ -7,7 +7,7 @@ services:
     # cap_add:
       # - NET_ADMIN
     environment:
-      - ROOT_DOMAIN=${ROOT_DOMAIN}
+      - ROOT_DOMAIN
     ports:
       - "80:80"
       - "443:443"
@@ -29,11 +29,25 @@ services:
       - "5678:80" # 5678 映射到外部主机的 80 端口\
     networks:
       - my_network
+  
+  portainer:
+    image: portainer/portainer-ce:2.21.3
+    container_name: portainer
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - my_network
 
 networks:
   my_network:
 
 volumes:
+  portainer_data:
+    # external: true
   my_caddy_data:
-    external: true
   my_caddy_config:
