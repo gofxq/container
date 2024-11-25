@@ -1,0 +1,19 @@
+bindPort: 11000
+kcpBindPort: 11000
+quicBindPort: 11001
+auth:
+  token: {{auth_token}}
+webServer:
+  addr: 0.0.0.0
+  port: 17500
+  user: admin
+  password: {{web_pass}}
+transport:
+  maxPoolCount: 15
+allowPorts:
+  - start: 11002
+    end: 29999
+log:
+  to: /tmp/frps/logs_server.log
+  level: info
+  maxDays: 3
